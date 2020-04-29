@@ -118,18 +118,11 @@ int main() {
 
 void logger(int m, int n) {
 
-   //pc.baud(115200);
-   //led1 = 1;//////////////////
-   //led2 = 1;
-   //led3 = 0;///////////////////
-   //wait(5);
-   //led1 = 1;///////////////
-
    uint8_t who_am_i, data[2], res[6];
 
    int16_t acc16;
 
-   //float t[3];
+   float dx=0.0, dy=0.0, dxi, dyi;
 
 
    // Enable the FXOS8700Q
@@ -183,18 +176,17 @@ void logger(int m, int n) {
 
       t[i][2] = ((float)acc16) / 4096.0f;
 
-      if(t[i][2]<0 || t[i][2]*t[i][2]<0.5)
+      dxi = 9.8 * t[i][0] * 0.005;
+      dyi = 9.8 * t[i][1] * 0.005;
+      dx = dx + dxi;
+      dy = dy + dyi;
+
+
+      if(dx * dx + dy * dy > 0.0025)
          t[i][3] = 1;
       else
          t[i][3] = 0;
-      
 
-
-      //printf("FXOS8700Q ACC: X=%1.4f(%x%x) Y=%1.4f(%x%x) Z=%1.4f(%x%x)\r\n",\
-
-         //   t[0], res[0], res[1],\
-
-           
 
       led1 = 0;
 
